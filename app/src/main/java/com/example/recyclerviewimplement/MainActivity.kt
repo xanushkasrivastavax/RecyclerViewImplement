@@ -52,8 +52,6 @@ class MainActivity : AppCompatActivity() {
         recyclerView=findViewById<RecyclerView>(R.id.recyclerview)
         progressBar=findViewById<ProgressBar>(R.id.progressBar)
 
-        Log.d("anushka","$token")
-
             fetchData(token,page)
 
         recyclerView?.addOnScrollListener(object : RecyclerView.OnScrollListener() {
@@ -61,13 +59,10 @@ class MainActivity : AppCompatActivity() {
                 super.onScrolled(recyclerView, dx, dy)
                 val linearLayoutManager = recyclerView?.layoutManager as LinearLayoutManager
                 val totalCount = linearLayoutManager.itemCount
-                Log.d("checkpoint", totalCount.toString())
-
                 val lastVisibleITem = linearLayoutManager.findLastVisibleItemPosition()
                 Log.d("checkpoint", lastVisibleITem.toString())
 
                 if(totalCount <= lastVisibleITem + recordsThreshold) {
-                    Log.d("checkpoint", "Step 1")
                     page++
                     fetchData(token,page)
                 }
@@ -76,9 +71,7 @@ class MainActivity : AppCompatActivity() {
     }
     private fun fetchData(token:String?,page:Int){
         if (page >limit) {
-
             Toast.makeText(this, "That's all the data..", Toast.LENGTH_SHORT).show()
-
             progressBar!!.visibility = View.GONE
             return
         }
@@ -99,7 +92,6 @@ class MainActivity : AppCompatActivity() {
                 for (i in 0 until jsonArray.length()) {
                     progressBar.visibility= View.INVISIBLE
                     val apiObject = jsonArray.getJSONObject(i)
-//                    Toast.makeText(this, presentPage, Toast.LENGTH_SHORT).show()
                     val name = apiObject.getString("name")
                     val description = apiObject.getString("description")
                     data.add(ItemsViewModel("Name : $name", "desc. : $description"))
@@ -143,7 +135,6 @@ class MainActivity : AppCompatActivity() {
             startActivity(intent)
         }
         return errorMsg
-
     }
 
 }

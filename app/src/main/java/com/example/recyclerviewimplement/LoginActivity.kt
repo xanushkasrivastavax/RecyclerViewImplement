@@ -62,7 +62,6 @@ class LoginActivity : AppCompatActivity() {
 
                 },
                 Response.ErrorListener {error->
-//                    Log.d("anushka","${it.message} ${it}")
                     displayMessage.text = getVolleyError(error)
                 })
             {
