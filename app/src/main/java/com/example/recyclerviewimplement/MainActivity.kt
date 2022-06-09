@@ -6,25 +6,17 @@ import android.content.SharedPreferences
 import android.net.ConnectivityManager
 import android.net.NetworkInfo
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.widget.NestedScrollView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.android.volley.*
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
-import org.apache.http.conn.ConnectTimeoutException
-import org.json.JSONException
 import org.json.JSONObject
-import org.xmlpull.v1.XmlPullParserException
 import java.net.ConnectException
-import java.net.MalformedURLException
-import java.net.SocketException
-import java.net.SocketTimeoutException
 import java.util.HashMap
 
 class MainActivity : AppCompatActivity() {
@@ -84,8 +76,8 @@ class MainActivity : AppCompatActivity() {
                 var size = jsonObject.getString("size")
                 var presentPage = jsonObject.getString("page")
                 val jsonArray = jsonObject.getJSONArray("results")
-                val recyclerview = findViewById<RecyclerView>(R.id.recyclerview)
-                recyclerview.layoutManager = LinearLayoutManager(this)
+                val recyclerView = findViewById<RecyclerView>(R.id.recyclerview)
+                recyclerView.layoutManager = LinearLayoutManager(this)
 
                 for (i in 0 until jsonArray.length()) {
                     progressBar.visibility = View.INVISIBLE
@@ -95,7 +87,7 @@ class MainActivity : AppCompatActivity() {
                     data.add(ItemsViewModel("Name : $name", "desc. : $description"))
                 }
                 val adapter = CustomAdapter(data)
-                recyclerview.adapter = adapter
+                recyclerView.adapter = adapter
                 adapter.notifyDataSetChanged()
 
             },
