@@ -31,7 +31,6 @@ class MainActivity : AppCompatActivity() {
     val data = ArrayList<ItemsViewModel>()
     private lateinit var sharedPreferences:SharedPreferences
     private var recyclerView:RecyclerView? = null
-    private var nestedSV: NestedScrollView? = null
     private var progressBar:ProgressBar? = null
     private var adapter:CustomAdapter? = null
     var page=1
@@ -52,7 +51,7 @@ class MainActivity : AppCompatActivity() {
         recyclerView=findViewById<RecyclerView>(R.id.recyclerview)
         progressBar=findViewById<ProgressBar>(R.id.progressBar)
 
-            fetchData(token,page)
+        fetchData(token,page)
 
         recyclerView?.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
@@ -60,8 +59,6 @@ class MainActivity : AppCompatActivity() {
                 val linearLayoutManager = recyclerView?.layoutManager as LinearLayoutManager
                 val totalCount = linearLayoutManager.itemCount
                 val lastVisibleITem = linearLayoutManager.findLastVisibleItemPosition()
-                Log.d("checkpoint", lastVisibleITem.toString())
-
                 if(totalCount <= lastVisibleITem + recordsThreshold) {
                     page++
                     fetchData(token,page)

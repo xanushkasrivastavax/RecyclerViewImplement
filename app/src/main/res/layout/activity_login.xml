@@ -100,7 +100,6 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:background="@drawable/btn_bg"
-        android:capitalize="none"
         android:fontFamily="sans-serif-medium"
         android:inputType="textCapWords"
         android:text=" Sign In"
