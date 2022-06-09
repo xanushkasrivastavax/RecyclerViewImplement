@@ -29,11 +29,11 @@ import java.util.HashMap
 
 class MainActivity : AppCompatActivity() {
     val data = ArrayList<ItemsViewModel>()
-    private lateinit var sharedPreferences:SharedPreferences
-    private var recyclerView:RecyclerView? = null
-    private var progressBar:ProgressBar? = null
-    private var adapter:CustomAdapter? = null
-    var page=1
+    private lateinit var sharedPreferences: SharedPreferences
+    private var recyclerView: RecyclerView? = null
+    private var progressBar: ProgressBar? = null
+    private var adapter: CustomAdapter? = null
+    var page = 1
     var limit = 3
     val recordsThreshold = 5
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -48,10 +48,10 @@ class MainActivity : AppCompatActivity() {
             return
         }
 
-        recyclerView=findViewById<RecyclerView>(R.id.recyclerview)
-        progressBar=findViewById<ProgressBar>(R.id.progressBar)
+        recyclerView = findViewById<RecyclerView>(R.id.recyclerview)
+        progressBar = findViewById<ProgressBar>(R.id.progressBar)
 
-        fetchData(token,page)
+        fetchData(token, page)
 
         recyclerView?.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
@@ -59,15 +59,16 @@ class MainActivity : AppCompatActivity() {
                 val linearLayoutManager = recyclerView?.layoutManager as LinearLayoutManager
                 val totalCount = linearLayoutManager.itemCount
                 val lastVisibleITem = linearLayoutManager.findLastVisibleItemPosition()
-                if(totalCount <= lastVisibleITem + recordsThreshold) {
+                if (totalCount <= lastVisibleITem + recordsThreshold) {
                     page++
-                    fetchData(token,page)
+                    fetchData(token, page)
                 }
             }
         })
     }
-    private fun fetchData(token:String?,page:Int){
-        if (page >limit) {
+
+    private fun fetchData(token: String?, page: Int) {
+        if (page > limit) {
             Toast.makeText(this, "That's all the data..", Toast.LENGTH_SHORT).show()
             progressBar!!.visibility = View.GONE
             return
@@ -87,7 +88,7 @@ class MainActivity : AppCompatActivity() {
                 recyclerview.layoutManager = LinearLayoutManager(this)
 
                 for (i in 0 until jsonArray.length()) {
-                    progressBar.visibility= View.INVISIBLE
+                    progressBar.visibility = View.INVISIBLE
                     val apiObject = jsonArray.getJSONObject(i)
                     val name = apiObject.getString("name")
                     val description = apiObject.getString("description")
@@ -98,11 +99,11 @@ class MainActivity : AppCompatActivity() {
                 adapter.notifyDataSetChanged()
 
             },
-        Response.ErrorListener {error->
-            val msg=getVolleyError(error)
-            Toast.makeText(this,msg,Toast.LENGTH_SHORT).show()
+            Response.ErrorListener { error ->
+                val msg = getVolleyError(error)
+                Toast.makeText(this, msg, Toast.LENGTH_SHORT).show()
 
-        }){
+            }) {
             override fun getHeaders(): MutableMap<String, String> {
                 val headers = HashMap<String, String>()
                 headers.put("Content-Type", "application/json");
@@ -112,6 +113,7 @@ class MainActivity : AppCompatActivity() {
         }
         queue.add(stringRequest)
     }
+
     private fun getVolleyError(error: VolleyError): String? {
         var errorMsg = ""
         if (error is NoConnectionError) {
@@ -124,9 +126,9 @@ class MainActivity : AppCompatActivity() {
                 "Your device is not connected to internet.please try again with active internet connection"
             }
         } else if (error is NetworkError || error.cause is ConnectException) {
-            errorMsg = "Your device is not connected to internet.please try again with active internet connection"
-        }
-         else {
+            errorMsg =
+                "Your device is not connected to internet.please try again with active internet connection"
+        } else {
             errorMsg = "Unable to validate token"
             val intent = Intent(this, LoginActivity::class.java)
             startActivity(intent)

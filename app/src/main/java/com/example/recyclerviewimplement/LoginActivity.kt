@@ -28,12 +28,12 @@ class LoginActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
-        val redirectToRegister=findViewById<TextView>(R.id.signup_textview)
+        val redirectToRegister = findViewById<TextView>(R.id.signup_textview)
         redirectToRegister.setOnClickListener {
             val intent = Intent(this, LoginActivity::class.java)
             startActivity(intent)
         }
-        val btnLogin=findViewById<Button>(R.id.btn_signin)
+        val btnLogin = findViewById<Button>(R.id.btn_signin)
         val displayMessage = findViewById<TextView>(R.id.first_header)
         btnLogin.setOnClickListener {
             val queue = Volley.newRequestQueue(this)
@@ -52,26 +52,26 @@ class LoginActivity : AppCompatActivity() {
                     myEdit.apply()
                     myEdit.commit()
 
-                    val sharedTokenValue = sharedPreferences.getString("access_token",token)
-                    if(token!=null) {
+                    val sharedTokenValue = sharedPreferences.getString("access_token", token)
+                    if (token != null) {
                         val intent = Intent(this, MainActivity::class.java)
                         startActivity(intent)
                     }
-                    Toast.makeText(this,sharedTokenValue , Toast.LENGTH_LONG).show()
+                    Toast.makeText(this, sharedTokenValue, Toast.LENGTH_LONG).show()
 
 
                 },
-                Response.ErrorListener {error->
+                Response.ErrorListener { error ->
                     displayMessage.text = getVolleyError(error)
-                })
-            {
+                }) {
 
                 override fun getParams(): MutableMap<String, String> {
                     val params = HashMap<String, String>()
                     params.put("email", email.getText().toString())
                     params.put("password", password.getText().toString())
                     return params;
-                }}
+                }
+            }
             queue.add(stringRequest)
         }
     }
@@ -88,7 +88,8 @@ class LoginActivity : AppCompatActivity() {
                 "Your device is not connected to internet.please try again with active internet connection"
             }
         } else if (error is NetworkError || error.cause is ConnectException) {
-            errorMsg = "Your device is not connected to internet.please try again with active internet connection"
+            errorMsg =
+                "Your device is not connected to internet.please try again with active internet connection"
         } else if (error.cause is MalformedURLException) {
             errorMsg = "That was a bad request please try again…"
         } else if (error is ParseError || error.cause is IllegalStateException || error.cause is JSONException || error.cause is XmlPullParserException) {
